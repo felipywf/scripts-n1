@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A.R.I.A. - Base de Scripts</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        .texto-script { white-space: pre-wrap; font-family: inherit; }
+    </style>
+</head>
+<body class="bg-gray-50 h-screen flex flex-col font-sans overflow-hidden">
+
+    <header class="bg-blue-800 text-white p-4 shadow-md flex justify-between items-center shrink-0">
+        <div>
+            <h1 class="text-xl font-bold">A.R.I.A. | Base de Conhecimento Rápida</h1>
+            <p class="text-sm text-blue-200">Consulta de Scripts de Atendimento - N1</p>
+        </div>
+    </header>
+
+    <main class="flex flex-1 overflow-hidden">
+        
+        <aside class="w-1/3 bg-white border-r flex flex-col shadow-sm z-10">
+            <div class="p-4 border-b shrink-0 bg-gray-50">
+                <input type="text" id="searchInput" placeholder="Buscar por Referência, Título ou Conteúdo..." 
+                       class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
+                <div class="text-xs text-gray-500 mt-2 text-right" id="statusContador">Carregando scripts...</div>
+            </div>
+            <div class="flex-1 overflow-y-auto p-2" id="listaScripts">
+                </div>
+        </aside>
+
+        <section class="w-2/3 p-6 flex flex-col bg-gray-50 relative">
+            <div id="scriptVazio" class="absolute inset-0 flex items-center justify-center text-gray-400">
+                Selecione um script na lista para visualizar
+            </div>
+            
+            <div id="scriptConteudo" class="hidden flex-col h-full bg-white rounded-lg shadow border border-gray-200">
+                <div class="p-5 border-b bg-gray-50 rounded-t-lg flex justify-between items-start shrink-0">
+                    <div>
+                        <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded" id="badgePasta"></span>
+                        <h2 class="text-2xl font-bold mt-2 text-gray-800" id="tituloScript"></h2>
+                        <p class="text-sm text-gray-500 mt-1">Ref: <span id="refScript" class="font-mono font-semibold"></span> | Ticket: <span id="ticketScript"></span></p>
+                    </div>
+                    <button id="btnCopiar" class="bg-green-600 hover:bg-green-500 text-white px-4 py-2 rounded font-semibold transition flex items-center gap-2">
+                        <span>Copiar Texto</span>
+                    </button>
+                </div>
+                <div class="p-6 flex-1 overflow-y-auto">
+                    <div id="textoScript" class="texto-script text-gray-700 leading-relaxed text-sm"></div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // =========================================================================
+        // COLE O CONTEÚDO DO SEU .TXT AQUI DENTRO DAS CRASES (``)
+        // =========================================================================
+        const DADOS_EMBUTIDOS = `
+===== SCRIPT 041 =====
+Referência: 583
+Ticket: #73066625
+Pasta: 2.3.2 - Advogados
+Título: Cadastro de advogado. Cadastro manual. Art.
+25, incisos I e II, do Provimento Conjunto nº 326/2025 c/c art. 4º, inciso I, da Portaria nº 10.677/2025.
+Status: OK
+
+Prezado usuário,
+
+Em virtude da comprovação da intermitência na integração entre o eproc e o Cadastro Nacional de Advogados (CNA), e/ou inconsistência no reconhecimento de certificado digital válido, para que este suporte realize o seu cadastramento manual, por favor encaminhar os seguintes documentos:
+
+📋 Documentação Necessária
+
+I – Para advogados:
+
+(a) Documento pessoal com foto;
+(b) Carteira da OAB válida;
+(c) Print da tela indicando a inconsistência técnica levantada como impeditivo ao auto cadastro;
+(d) Foto do certificado digital indicando o prazo de validade;
+(e) Telefone para contato e conta de e-mail para envio de login e senha.
+
+⚖️ Fundamentação Legal
+Fundamento: Art.
+25, incisos I e II, do Provimento Conjunto nº 326/2025 c/c art. 4º, inciso I, da Portaria nº 10.677/2025.
+Agradecemos seu contato e permanecemos à disposição.
+
+Atenciosamente,
+Equipe de Suporte 2.3.2
+
+
+===== SCRIPT 046 =====
+Referência: 578
+Ticket: #N/A
+Pasta: 2.3.2 - Advogados
+Título: Advogado.
+Impossibilidade de cadastro de PJ como perito. Representante da PJ prestadora de serviços periciais (recuperação judicial).
+Status: OK
+
+Prezado usuário,
+
+A função de perito judicial possui caráter pessoal e intransferível, devendo ser exercida por profissional devidamente habilitado e regularmente inscrito em seu respectivo conselho de classe (CRC, CREA, CRM, entre outros), conforme dispõe o art.
+156, § 1º do Código de Processo Civil, bem como a Resolução CNJ nº 233/2016.
+📌 Validação no Sistema eproc
+No âmbito do sistema eproc, a validação e a vinculação ao Cadastro de Peritos são realizadas exclusivamente por meio do CPF do profissional, não sendo possível, no momento, o cadastro ou a nomeação de perito por CNPJ.
+📋 Procedimento para Empresas Prestadoras
+Assim, mesmo nos casos em que exista uma empresa prestadora de serviços periciais, como aquelas que atuam na área de recuperação judicial, o cadastro deverá ser efetuado em nome do profissional responsável (pessoa física), o qual será o perito nomeado no sistema, por meio de seu CPF.
+⚠️ Informação Importante
+Ressaltamos que, atualmente, as nomeações de peritos no eproc ocorrem exclusivamente por CPF vinculado ao profissional, não havendo previsão para cadastro ou atuação direta de CNPJ como perito nos processos.
+🔗 Documentação de Referência
+Para mais informações sobre o cadastro de auxiliares da justiça, acesse o Infoeproc nº 66 - Cadastro de Auxiliares da Justiça: https://www.tjsp.jus.br/Download/EPROC/InfoEproc/Infoeproc66.pdf
+
+Atenciosamente,
+Equipe de Suporte 2.3.2
+
+
+===== SCRIPT 049 =====
+Referência: 574
+Ticket: #71837461
+Pasta: 2.3.2 - Advogados
+Título: Advogado.
+Mensagem automática de confirmação de email. Migração SAJ. Partes ou advogados de processos SAJ não cadastrados no eproc.
+Status: OK
+
+Prezado usuário,
+
+Agradecemos o contato.
+
+📌 Procedimento de Regularização Automatizada
+Informamos que o TJSP está realizando a regularização automatizada de cadastros de usuários no eproc associados a processos migrados do SAJ.
+Neste procedimento, uma mensagem é encaminhada automaticamente pelo sistema para confirmação do e-mail cadastrado.
+
+Se V. Sa.
+recebeu tal e-mail, isso significa que o procedimento foi concluído e que seu e-mail cadastrado está correto.
+Recomendamos que clique no link de confirmação existente na mensagem para validar seu cadastro no sistema eproc do TJSP.
+Posteriormente, será necessário inicializar sua senha e ativar o duplo fator de autenticação para acesso.
+📋 Acesso com Nome de Usuário e Senha
+Para acessar o sistema, é necessário reinicializar sua senha:
+Na página de login, clique em “Esqueci minha senha”.
+Preencha os dados solicitados.
+
+⚠️ Informação Importante: Seu usuário deve ser preenchido com a sigla estadual de sua inscrição OAB seguida de seu número de inscrição com seis dígitos.
+Exemplo: SP012345.
+Na ausência de 6 dígitos, digite o zero à esquerda conforme o modelo acima.
+🔐 Primeiro Acesso – Habilitação do Duplo Fator
+No primeiro acesso, será requerida a ativação do duplo fator de autenticação.
+Consulte o passo a passo no Infoeproc nº 7 - Autenticação em Dois Fatores (2FA) no eproc:
+https://www.tjsp.jus.br/Download/EPROC/InfoEproc/Infoeproc7.pdf
+
+📄 Acesso com Certificado Digital
+Para utilizar o certificado digital:
+Insira o certificado.
+Clique no botão “Certificado Digital”.
+
+Caso tenha dificuldades, tente utilizar o link de “acesso alternativo” na parte inferior da tela de login, seguindo as instruções ali contidas.
+Agradecemos a atenção e ficamos à disposição para quaisquer dúvidas.
+Atenciosamente,
+Equipe de Suporte 2.3.2
+
+
+===== SCRIPT 059 =====
+Referência: 534
+Ticket: #76403678
+Pasta: 2.3.2 - Advogados
+Título: Inclusão de Nome Social no cadastro de usuário
+Status: OK
+
+Prezado usuário,
+
+Informamos que realizamos a atualização do seu cadastro no sistema para a inclusão do Nome Social.
+A partir deste ajuste, o sistema eproc passará a identificá-lo(a) pelo nome social X na capa e no andamento de todos os processos em que o(a) senhor(a) atuar como parte ou advogado, e não apenas no processo recém-distribuído.
+Esclarecemos que, conforme a funcionalidade do sistema e, em cumprimento à Resolução CNJ nº 270/2018, o nome do registro civil deixará de ter destaque público.
+Ele poderá ser visualizado apenas pelos servidores da unidade judicial e pelos demais procuradores vinculados aos autos, aparecendo de forma discreta precedido pela informação "registrado(a) civilmente como", garantindo a preservação da sua identidade de gênero.
+Sugerimos que realize um novo login no sistema para validar a alteração.
+
+Agradecemos o contato e permanecemos à disposição.
+Atenciosamente,
+Equipe de Suporte 2.3.2
+
+
+===== SCRIPT 067 =====
+Referência: 510
+Ticket: #75726240
+Pasta: 2.3.2 - Advogados
+Título: Advogado. Cadastro sociedade de Advogados.
+Status: OK
+
+Prezado usuário,
+
+Informamos que foi realizado o cadastro da Sociedade de Advogados, bem como lhe foi atribuído o perfil de Advogado-Titular, com o qual fará o gerenciamento da referida sociedade no sistema eproc.
+📋 Informações Importantes:
+Para mais orientações sobre o cadastro de assistentes e estagiários, acesse o Infoeproc nº 82 - Cadastro de sociedade de advogados, assistentes e estagiários: https://www.tjsp.jus.br/Download/EPROC/InfoEproc/Infoeproc82.pdf
+
+📌 Procedimentos:
+Caso a situação esteja solucionada, solicitamos que registre a aceitação da solução no portal.
+Caso contrário, basta rejeitá-la e enviar comentários com o motivo e informações adicionais.
+
+Agradecemos o contato e permanecemos à disposição.
+Atenciosamente,
+Equipe de Suporte 2.3.2
+
+
+===== SCRIPT 071 =====
+Referência: 500
+Ticket: #75469566
+Pasta: 2.3.2 - Advogados
+Título: Advogado. Migração. Registro OAB não migrado. 2FA.
+Recuperação de Senha.
+Status: OK
+
+Prezado usuário,
+
+Pedimos sinceras desculpas pela demora em iniciar o atendimento de sua solicitação.
+Nossa equipe está empenhada em resolver sua questão o mais breve possível.
+Entendemos a dificuldade com o acesso ao processo e a falha na autenticação de dois fatores.
+Após analisar os autos e pesquisar seu cadastro, há duas situações a serem resolvidas:
+Advogado não vinculado ao processo.
+Conta de autenticação possivelmente desconfigurada.
+
+📌 1. Sobre a falta de vínculo do patrono no processo
+A ausência de vínculo do patrono no processo decorre de um erro de migração.
+Para informar a serventia sobre a situação, o patrono pode comparecer presencialmente à unidade, peticionar nos autos ou utilizar o Balcão Virtual.
+📌 2. Sobre o erro "Código de número único inválido" (autenticação em dois fatores)
+Com base em casos similares, esse problema frequentemente está relacionado à conta no aplicativo autenticador ou à sincronização do código.
+Para resolvê-lo, recomendamos seguir os procedimentos abaixo:
+
+📋 Procedimento para corrigir o erro de código inválido:
+1. Remova a conta existente no Authenticator: Abra o aplicativo Microsoft Authenticator no seu smartphone, localize e toque na conta cadastrada como "Eproc/TJSP", toque no ícone de Configurações e selecione "Remover conta".
+2. Recupere sua senha (se necessário): Acesse a página de login e clique em "Esqueci minha senha".
+Preencha os campos solicitados com sua sigla de usuário (UF+OAB), CPF, data de nascimento e e-mail cadastrado.
+Clique em "Reinicializar senha".
+3. Reconfigure a autenticação em dois fatores: Acesse a página de login do sistema eproc, informe seu usuário e senha e clique em "Autenticação em dois fatores".
+Clique em "Desativar 2FA". Você receberá um e-mail para confirmar a desativação.
+Retorne à tela inicial, informe seu usuário e senha e clique novamente em "Autenticação em dois fatores".
+No aplicativo autenticador, escaneie o código QR exibido na tela do eproc. Insira o novo código gerado no eproc.
+Atenciosamente,
+Equipe de Suporte 2.3.2
+
+
+===== SCRIPT 109 =====
+Referência: 190
+Ticket: #N/A
+Pasta: 2.3.2 - Advogados
+Título: Menu lateral não aparece após migração de cadastro
+Status: OK
+
+Prezado usuário,
+
+Identificamos que o cadastro havia sido migrado automaticamente de outro sistema.
+Realizamos a desativação do perfil que havia sido atribuído durante o processo de migração e, em seguida, efetuamos a configuração correta do acesso, vinculando o perfil adequado conforme a validação do Cadastro Nacional de Advogados-CNA e a sigla padrão utilizada pelo sistema.
+Caso o problema esteja solucionado, solicitamos que aceite a resolução do chamado no portal.
+Do contrário, basta rejeitá-la e enviar seus comentários com o motivo e informações necessárias.
+Agradecemos seu contato e permanecemos à disposição.
+Atenciosamente,
+Equipe de Suporte 2.3.2
+
+
+===== SCRIPT 153 =====
+Referência: 127
+Ticket: #N/A
+Pasta: 2.3.2 - Advogados
+Título: Advogado.
+Exclusão de cadastro no eproc. Alteração de dados cadastrais.
+Status: OK
+
+Prezado usuário,
+
+Informamos que não é possível ao próprio usuário excluir seu cadastro no eproc.
+Para alterar informações cadastrais, siga estes passos:
+Acesse o sistema com seu login;
+No menu lateral, vá em "Usuários" → "Alteração de Dados Pessoais"
+A tela "Alterar Cadastro" será exibida, permitindo a edição ou inclusão de diversos dados.
+Os campos com fundo cinza estão desabilitados para edição. Caso precise alterar essas informações, por favor, rejeite esta solução e informe:
+Os dados que deseja modificar;
+O motivo da solicitação. A equipe técnica poderá solicitar capturas de tela (prints) para validação.
+Se o problema foi resolvido, solicitamos que aceite a solução no portal.
+Caso contrário, basta rejeitá-la e enviar seus comentários com os detalhes necessários. Agradecemos seu contato e permanecemos à disposição.
+Atenciosamente,
+Equipe de Suporte 2.3.2
+
+
+===== SCRIPT 184 =====
+Referência: 78
+Ticket: #N/A
+Pasta: 2.3.2 - Advogados
+Título: Alteração de senha para advogados e jus postulandi
+Status: OK
+
+Prezado usuário,
+
+Para alterar sua senha, siga um dos procedimentos abaixo:
+
+Procedimento 1 - Pelo menu do sistema eproc:
+Após realizar o login no eproc, no menu lateral, acesse a opção “Alterar Senha”.
+Na tela "Alterar Senha Pessoal", digite a nova senha. Confirme a alteração clicando em “Alterar”.
+Procedimento 2 - Redefinição online:
+Como alternativa, você pode acessar o link de redefinição de senha e preencher os campos:
+Usuário
+CPF
+Data de Nascimento
+E-mail cadastrado no sistema
+Após preencher, clique em "Requisitar nova senha".
+Caso o problema esteja solucionado, solicitamos que aceite a resolução do chamado no portal.
+Do contrário, basta rejeitá-la e enviar seus comentários com o motivo e informações necessárias.
+Agradecemos seu contato e permanecemos à disposição.
+Atenciosamente,
+Equipe de Suporte 2.3.2
+
+===== SCRIPT 001 =====
+Referência: 447
+Ticket: #74739670
+Pasta: 2.3.2 - Auxiliares da Justiça
+Título: Documentação para cadastro de perito
+Status: OK
+
+Prezado usuário,
+
+Conforme o art.
+17 do Provimento Conjunto nº 326/2025 do TJSP:
+
+Art. 17. Concluído o cadastro no Portal "Auxiliares da Justiça", deverá ser atribuído ao interessado perfil próprio para acesso ao sistema eproc.
+(...)
+
+§ 2º. Para fins do § 1º, o interessado encaminhará cópia do seu prontuário no Portal "Auxiliares da Justiça".
+(grifo nosso)
+
+📋 Procedimento Necessário:
+
+Desse modo, para que seja feito o cadastro, o interessado deverá:
+
+Abrir um chamado ao suporte técnico;
+Anexar ao chamado uma cópia do prontuário do Portal de Auxiliares da Justiça.
+Com essas informações, poderemos proceder ao cadastro no sistema.
+
+Agradecemos seu contato e permanecemos à disposição.
+Atenciosamente,
+Equipe de Suporte 2.3.2
+
+
+===== SCRIPT 002 =====
+Referência: 66
+Ticket: #N/A
+Pasta: 2.3.2 - Auxiliares da Justiça
+Título: Confirmação de cadastro de auxiliar da justiça
+Status: OK
+
+💡
+
+Clique nos campos 📝 1 para preencher.(2 campos pendentes)
+
+Prezado(a) usuário(a),
+
+Informamos que foi realizado o seu cadastro como auxiliar da justiça.
+📋 Credenciais de acesso:
+
+Usuário: 📝 1
+Senha: 📝 2
+
+⚠️ Importante:
+
+No primeiro acesso, será obrigatória a ativação da autenticação em dois fatores.
+Para mais informações sobre esse procedimento, indicamos a leitura do Infoeproc nº 7 - Autenticação em Dois Fatores (2FA) no eproc: https://www.tjsp.jus.br/Download/EPROC/InfoEproc/Infoeproc7.pdf
+
+📚 Materiais de apoio:
+
+Recomendamos a consulta aos materiais indicados abaixo, que orientarão sobre cadastro e acesso, consulta processual e resposta à intimações.
+1. Cadastro e acesso:
+
+https://www.tjsp.jus.br/download/EPROC/ManuaisPublicoExterno/MC_EPROC_AUXILIAR_JUSTICA%20EXTERNO-Acesso-ao-sistema_24-11-25.pdf
+
+2. Consulta processual:
+https://www.tjsp.jus.br/Download/EPROC/ManuaisPublicoExterno/2.1-EPROC-AUXILIAR-JUSTICA-EXTERNO-TJSP-Consulta-Processual.pdf
+https://www.tjsp.jus.br/download/EPROC/ManuaisPublicoExterno/3-1-MANUAL-EPROC-AUXILIAR-JUSTICA-EXTERNO.pdf
+✅ Próximos passos:
+
+Caso a situação esteja solucionada, solicitamos que aceite a solução do chamado no portal.
+Caso contrário, basta rejeitá-la e enviar seus comentários com o motivo e informações adicionais.
+💡 Pesquisa de Satisfação:
+
+Sua opinião é muito importante para nós! Participe da nossa pesquisa de satisfação.
+O link para participar é encaminhado por e-mail após o recebimento da solução dada a sua solicitação.
+Agradecemos seu contato e permanecemos à disposição.
+
+Atenciosamente,
+Equipe de Suporte 2.3.2
+`;
+        // =========================================================================
+
+        let scriptsData = [];
+        let scriptAtivo = null;
+
+        const searchInput = document.getElementById('searchInput');
+        const listaScripts = document.getElementById('listaScripts');
+        const statusContador = document.getElementById('statusContador');
+        
+        const scriptVazio = document.getElementById('scriptVazio');
+        const scriptConteudo = document.getElementById('scriptConteudo');
+        const badgePasta = document.getElementById('badgePasta');
+        const tituloScript = document.getElementById('tituloScript');
+        const refScript = document.getElementById('refScript');
+        const ticketScript = document.getElementById('ticketScript');
+        const textoScriptDiv = document.getElementById('textoScript');
+        const btnCopiar = document.getElementById('btnCopiar');
+
+        // Limpa as tags 
+        function limparTagsFonte(texto) {
+            return texto.replace(/\\s*/g, '');
+        }
+
+        function processarTXT(textoRaw) {
+            scriptsData = [];
+            let texto = limparTagsFonte(textoRaw);
+            
+            const blocos = texto.split(/=====\s*SCRIPT\s*\d+\s*=====/).filter(b => b.trim().length > 0);
+
+            blocos.forEach(bloco => {
+                const linhas = bloco.trim().split('\n');
+                let scriptObj = { ref: '', ticket: '', pasta: '', titulo: '', status: '', texto: '' };
+                let comecouCorpo = false;
+                let linhasCorpo = [];
+
+                linhas.forEach(linha => {
+                    if (!comecouCorpo) {
+                        if (linha.startsWith('Referência:')) scriptObj.ref = linha.replace('Referência:', '').trim();
+                        else if (linha.startsWith('Ticket:')) scriptObj.ticket = linha.replace('Ticket:', '').trim();
+                        else if (linha.startsWith('Pasta:')) scriptObj.pasta = linha.replace('Pasta:', '').trim();
+                        else if (linha.startsWith('Título:')) scriptObj.titulo = linha.replace('Título:', '').trim();
+                        else if (linha.startsWith('Status:')) scriptObj.status = linha.replace('Status:', '').trim();
+                        else if (linha.trim() === '') { comecouCorpo = true; }
+                    } else {
+                        linhasCorpo.push(linha);
+                    }
+                });
+
+                scriptObj.texto = linhasCorpo.join('\n').trim();
+                if (scriptObj.ref || scriptObj.titulo) {
+                    scriptsData.push(scriptObj);
+                }
+            });
+
+            renderizarLista(scriptsData);
+        }
+
+        function renderizarLista(dados) {
+            listaScripts.innerHTML = '';
+            statusContador.innerText = `${dados.length} script(s) carregado(s)`;
+
+            if (dados.length === 0) {
+                listaScripts.innerHTML = '<p class="text-gray-400 text-center mt-10 text-sm">Nenhum resultado encontrado.</p>';
+                return;
+            }
+
+            dados.forEach(script => {
+                const div = document.createElement('div');
+                div.className = 'p-3 mb-2 border rounded cursor-pointer hover:bg-blue-50 transition bg-white border-gray-200';
+                div.innerHTML = `
+                    <div class="flex justify-between items-start">
+                        <span class="font-bold text-blue-700">#${script.ref}</span>
+                        <span class="text-xs text-gray-400 truncate max-w-[150px]">${script.pasta}</span>
+                    </div>
+                    <div class="text-sm text-gray-700 mt-1 line-clamp-2">${script.titulo}</div>
+                `;
+                div.onclick = () => exibirScript(script);
+                listaScripts.appendChild(div);
+            });
+        }
+
+        function exibirScript(script) {
+            scriptAtivo = script;
+            scriptVazio.classList.add('hidden');
+            scriptConteudo.classList.remove('hidden');
+            scriptConteudo.classList.add('flex');
+
+            badgePasta.innerText = script.pasta || "Sem Pasta";
+            tituloScript.innerText = script.titulo || "Sem Título";
+            refScript.innerText = script.ref || "N/A";
+            ticketScript.innerText = script.ticket || "N/A";
+            textoScriptDiv.innerText = script.texto;
+        }
+
+        searchInput.addEventListener('input', (e) => {
+            const termo = e.target.value.toLowerCase();
+            const filtrados = scriptsData.filter(s => 
+                s.ref.toLowerCase().includes(termo) || 
+                s.titulo.toLowerCase().includes(termo) ||
+                s.texto.toLowerCase().includes(termo)
+            );
+            renderizarLista(filtrados);
+        });
+
+        btnCopiar.addEventListener('click', () => {
+            if (!scriptAtivo) return;
+            navigator.clipboard.writeText(scriptAtivo.texto).then(() => {
+                const textoOriginal = btnCopiar.innerHTML;
+                btnCopiar.innerHTML = '<span>✅ Copiado!</span>';
+                btnCopiar.classList.replace('bg-green-600', 'bg-blue-600');
+                btnCopiar.classList.replace('hover:bg-green-500', 'hover:bg-blue-500');
+                
+                setTimeout(() => {
+                    btnCopiar.innerHTML = textoOriginal;
+                    btnCopiar.classList.replace('bg-blue-600', 'bg-green-600');
+                    btnCopiar.classList.replace('hover:bg-blue-500', 'hover:bg-green-500');
+                }, 2000);
+            });
+        });
+
+        // Inicializa processando os dados embutidos na variável DADOS_EMBUTIDOS assim que a página carrega
+        window.onload = () => {
+            processarTXT(DADOS_EMBUTIDOS);
+        };
+    </script>
+</body>
+</html>
